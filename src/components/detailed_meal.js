@@ -11,14 +11,16 @@ class DetailedMeal extends Component {
 
     return(
       <ReactCSSTransitionGroup
-          transitionName="example"
+          transitionName="fade-in"
           transitionEnterTimeout={250}
-          transitionLeaveTimeout={1}>
+          transitionLeaveTimeout={1}
+          transitionAppear={true}
+          transitionAppearTimeout={250}>
         <div key={meal.id} className="detailed-meal">
           <h1>{meal.name}</h1>
           <p>{meal.ingredient}</p>
           <p>{meal.preparation}</p>
-          <YouTube videoId="QGURNgLlUa4" />
+          <YouTube videoId={meal.video_id} />
           <p>{meal.substitutions}</p>
         </div>
       </ReactCSSTransitionGroup>

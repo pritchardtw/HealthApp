@@ -9,7 +9,7 @@ export default class Home extends Component {
           <div className="border-box">
             true health
           </div>
-          <Link to="/meals" className="btn">foods</Link>
+          <Link to="/app" className="btn">foods</Link>
         </div>
       </div>
     );
