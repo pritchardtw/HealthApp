@@ -17,7 +17,7 @@ export default class DayList extends Component {
   render() {
     return(
       <div className="day-list">
-        <ul className="nav navbar-nav">
+        <ul className="day-nav">
           {this.renderDays()}
         </ul>
       </div>

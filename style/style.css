@@ -13,11 +13,6 @@
     border: 5px solid white;
 }
 
-a.btn {
-  color: white;
-  font-size: 3rem;
-}
-
 .home {
   height: 100vh;
 }
@@ -34,15 +29,40 @@ a.btn {
   background: url(../images/cabbage.jpeg) center/cover no-repeat;
 }
 
-.initial-container {
+.app {
+  position: absolute;
   height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-.nav {
+.navbar {
+  margin: 0;
+  height: 7%;
+}
+
+.navbar-brand, .navbar-default, .navbar-nav>li>a {
+  color: #373a3c !important;
+  background-color: white;
+}
+
+.health-app {
+  position: absolute;
+  height: 93%;
+  width: 100%;
+}
+
+.initial-container {
+  height: 100vh;
+}
+
+.day-nav {
   height: 100%;
   width: 100%;
   overflow: hidden;
   overflow-y: scroll;
+  list-style: none;
+  padding: 0;
 }
 
 .active-nav {
@@ -50,17 +70,15 @@ a.btn {
 }
 
 .day-list {
-  height: 100vh;
-  width: 30%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  float: left;
+  height: 100%;
+  width: 30rem;
 }
 
 .day {
   display: block;
   font-family: 'Open Sans', sans-serif;
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: bold;
   margin-left: 10px;
   margin-right: 10px;
@@ -111,9 +129,8 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 
 .meal {
   font-family: 'Open Sans', sans-serif;
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: normal;
-  border-radius: .375rem;
   background-color: white;
   margin: 7px;
   border-top: 1px solid lightgray;
@@ -124,11 +141,14 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 }
 
 .detailed-meal {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 70%;
-  padding: 30px;
+  display: inline-block;
+  text-align: left;
+  padding: 20px;
+}
+
+.detailed-meal-container {
+  overflow: hidden;
+  text-align: left;
 }
 
 .fade-in-appear {
@@ -164,7 +184,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 
 .expand-appear.expand-appear-active {
   max-height: 200px;
-  transition: max-height 250ms ease-in;
+  transition: max-height 400ms ease-in;
 }
 
 .expand-enter {
@@ -173,7 +193,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 
 .expand-enter.expand-enter-active {
   max-height: 200px;
-  transition: max-height 250ms ease-in;
+  transition: max-height 400ms ease-in;
 }
 
 .expand-leave {
@@ -182,5 +202,26 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 
 .expand-leave.expand-leave-active {
   max-height: 0px;
-  transition: max-height 250ms ease-in;
+  transition: max-height 400ms ease-in;
+}
+
+/* LEFT TO RIGHT */
+.sliding-u-l-r {
+  display: inline-block;
+}
+.sliding-u-l-r:after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 0;
+  background: transparent;
+  transition: width .5s ease, background-color .5s ease;
+}
+.sliding-u-l-r:hover:after {
+  width: 100%;
+  background: #373a3c;
+}
+
+.sub-page {
+  padding: 30px;
 }

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Home from './components/home';
+import App from './components/app';
 import { store } from './store';
 import { onAppEnter } from './route_callbacks';
 

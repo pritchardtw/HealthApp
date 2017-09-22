@@ -16,16 +16,16 @@ class Meal extends Component {
     return(
       <ReactCSSTransitionGroup
           transitionName="expand"
-          transitionEnterTimeout={250}
-          transitionLeaveTimeout={250}
+          transitionEnterTimeout={400}
+          transitionLeaveTimeout={400}
           transitionAppear={true}
-          transitionAppearTimeout={250}>
-      <NavLink className="meal" activeClassName="active-nav" to={`/app/${meal.id}`}>
-        <li key={meal.id}>
-          {meal.name}
-          <span className="meal-span"> icon </span>
-        </li>
-      </NavLink>
+          transitionAppearTimeout={400}>
+        <NavLink className="meal" activeClassName="active-nav" to={`/app/${meal.id}`}>
+          <li key={meal.id}>
+            {meal.name}
+            <span className="meal-span"> icon </span>
+          </li>
+        </NavLink>
       </ReactCSSTransitionGroup>
 
     );
