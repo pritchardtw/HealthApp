@@ -6,11 +6,11 @@ import GroceryList from './grocery_list';
 import About from './about';
 import Snacks from './snacks';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { onHealthAppEnter } from '../route_callbacks';
 
 export default class App extends Component {
   render() {
     return(
-
         <div className="app">
           <MenuBar {...this.props} />
           <ReactCSSTransitionGroup
@@ -19,12 +19,12 @@ export default class App extends Component {
               transitionLeaveTimeout={1}
               transitionAppear={true}
               transitionAppearTimeout={250}>
-          <Switch>
-            <Route path={`${this.props.match.url}/grocery_list`} render={()=>{return <GroceryList {...this.props}/>}}/>
-            <Route path={`${this.props.match.url}/about`} render={()=>{return <About {...this.props}/>}}/>
-            <Route path={`${this.props.match.url}/snacks`} render={()=>{return <Snacks {...this.props}/>}}/>
-            <Route path={this.props.match.url} render={()=>{return <HealthApp {...this.props}/>}}/>
-          </Switch>
+            <Switch>
+              <Route path={`${this.props.match.url}/grocery_list`} render={()=>{return <GroceryList {...this.props}/>}}/>
+              <Route path={`${this.props.match.url}/about`} render={()=>{return <About {...this.props}/>}}/>
+              <Route path={`${this.props.match.url}/snacks`} render={()=>{return <Snacks {...this.props}/>}}/>
+              <Route path={this.props.match.url} render={onHealthAppEnter}/>
+            </Switch>
           </ReactCSSTransitionGroup>
         </div>
     );

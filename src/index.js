@@ -13,7 +13,7 @@ ReactDOM.render(
     <BrowserRouter>
       <div>
         <Switch>
-          <Route path="/app" render={onAppEnter} />
+          <Route path="/app" component={App} />
           <Route path="/" component={Home} />
         </Switch>
       </div>

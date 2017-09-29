@@ -124,7 +124,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 }
 
 .meal-list {
-
+  overflow: hidden;
 }
 
 .meal {
@@ -183,7 +183,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 }
 
 .expand-appear.expand-appear-active {
-  max-height: 200px;
+  max-height: 600px;
   transition: max-height 400ms ease-in;
 }
 
@@ -192,12 +192,12 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 }
 
 .expand-enter.expand-enter-active {
-  max-height: 200px;
+  max-height: 600px;
   transition: max-height 400ms ease-in;
 }
 
 .expand-leave {
-  max-height: 200px;
+  max-height: 600px;
 }
 
 .expand-leave.expand-leave-active {

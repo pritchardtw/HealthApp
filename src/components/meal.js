@@ -6,28 +6,16 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Meal extends Component {
 
-  componentWillMount() {
-    console.log("Meal will mount");
-  }
-
   render() {
     const { meal } = this.props;
 
     return(
-      <ReactCSSTransitionGroup
-          transitionName="expand"
-          transitionEnterTimeout={400}
-          transitionLeaveTimeout={400}
-          transitionAppear={true}
-          transitionAppearTimeout={400}>
         <NavLink className="meal" activeClassName="active-nav" to={`/app/${meal.id}`}>
           <li key={meal.id}>
             {meal.name}
             <span className="meal-span"> icon </span>
           </li>
         </NavLink>
-      </ReactCSSTransitionGroup>
-
     );
   }
 }

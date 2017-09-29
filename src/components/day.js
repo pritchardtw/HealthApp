@@ -12,10 +12,6 @@ export default class Day extends Component {
     }
   }
 
-  componentWillMount() {
-    console.log("Day will mount");
-  }
-
   handleClick() {
     this.setState( (this.state.open === true) ? { open: false } : { open: true });
   }
