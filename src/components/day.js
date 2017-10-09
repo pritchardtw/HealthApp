@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import { showMealList } from '../route_callbacks';
 import MealList from './meal_list';
+import _ from 'lodash';
 
 export default class Day extends Component {
 
@@ -18,9 +19,23 @@ export default class Day extends Component {
 
   renderMealList() {
     if(this.state.open) {
-      return (<MealList meal_ids={this.props.day.meal_ids}/>);
+      return (<MealList meal_ids={this.props.day.meal_ids} completed={this.props.day.completed}/>);
     } else {
       return null;
+    }
+  }
+
+  renderSpan() {
+    let j = 0;
+    _.map(this.props.day.completed, (completed) => {
+      if(completed) {
+        j++;
+      }
+    });
+    if(j == 3) {
+      return (<i className="fa fa-check" aria-hidden="true"></i>)
+    } else {
+      return (<i className="fa fa-circle-thin" aria-hidden="true"></i>)
     }
   }
 
@@ -29,7 +44,7 @@ export default class Day extends Component {
         <div key={this.props.day.id} className="day">
           <li key={this.props.day.id} onClick={this.handleClick.bind(this)}>
             Day {this.props.day.id}
-            <span className="day-span"> icon </span>
+            {this.renderSpan()}
           </li>
           {this.renderMealList()}
         </div>

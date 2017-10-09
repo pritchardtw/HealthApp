@@ -6,6 +6,16 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Meal extends Component {
 
+  renderSpan() {
+    const { completed } = this.props;
+
+    if(completed) {
+      return (<i className="fa fa-check" aria-hidden="true"></i>)
+    } else {
+      return (<i className="fa fa-circle-thin" aria-hidden="true"></i>)
+    }
+  }
+
   render() {
     const { meal } = this.props;
 
@@ -13,7 +23,7 @@ class Meal extends Component {
         <NavLink className="meal" activeClassName="active-nav" to={`/app/${meal.id}`}>
           <li key={meal.id}>
             {meal.name}
-            <span className="meal-span"> icon </span>
+            {this.renderSpan()}
           </li>
         </NavLink>
     );

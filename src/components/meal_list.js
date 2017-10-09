@@ -6,10 +6,10 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 export default class MealList extends Component {
 
   renderMeals() {
-    const { meal_ids } = this.props;
+    const { meal_ids, completed } = this.props;
 
-    return _.map(meal_ids, id => {
-      return <Meal key={id} id={id}/>
+    return _.map(meal_ids, (id, index) => {
+      return <Meal key={id} id={id} completed={completed[index]}/>
     });
   }
 
@@ -21,7 +21,7 @@ export default class MealList extends Component {
           transitionLeaveTimeout={400}
           transitionAppear={true}
           transitionAppearTimeout={400}>
-        <div key={1} className="meal-list">
+        <div className="meal-list">
           <ul>
             {this.renderMeals()}
           </ul>
