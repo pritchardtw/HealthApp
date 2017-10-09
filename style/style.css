@@ -73,16 +73,26 @@
   position: absolute;
   top: 0;
   right: 0;
-  font-size: 1.5rem;
+  font-size: 2.3rem;
   margin-left: 10px;
+  color: lightgray;
+}
+
+.close-day-nav:hover {
+  cursor: pointer;
 }
 
 .open-day-nav {
   position: absolute;
   top: 0;
   left: 0;
-  font-size 1.5rem;
+  font-size: 2.3rem;
   margin-left: 10px;
+  color: lightgray;
+}
+
+.open-day-nav:hover {
+  cursor: pointer;
 }
 
 .day-nav-container {
@@ -91,7 +101,7 @@
 
 .day-nav {
   height: 100%;
-  width: 93%;
+  width: 91%;
   overflow: hidden;
   overflow-y: scroll;
   list-style: none;
@@ -193,7 +203,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 .detailed-meal {
   display: inline-block;
   text-align: left;
-  padding: 20px;
+  padding: 20px 10px;
 }
 
 .detailed-meal-container {
