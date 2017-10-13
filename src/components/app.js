@@ -7,8 +7,9 @@ import About from './about';
 import Snacks from './snacks';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { onHealthAppEnter } from '../route_callbacks';
+import { connect } from 'react-redux';
 
-export default class App extends Component {
+class App extends Component {
   render() {
     return(
         <div className="app">
@@ -30,3 +31,9 @@ export default class App extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return { auth: state.authentication };
+}
+
+export default connect(mapStateToProps)(App);

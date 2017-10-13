@@ -1,7 +1,7 @@
 import axios from 'axios';
 export const FETCH_DAYS = 'fetch_days';
 export const FETCH_MEALS = 'fetch_meals';
-
+export const LOGGED_IN = 'logged_in';
 
 const ROOT_URL = 'http://localhost:3090';
 // const API_KEY = '?key=thommywhommy'
@@ -160,6 +160,7 @@ export function fetchDays() {
 }
 
 export function fetchMeals() {
+
   return function getMeals(dispatch) {
     axios.get(`${ROOT_URL}/meals`)
     .then(response => {
@@ -172,4 +173,24 @@ export function fetchMeals() {
       console.log("caught error");
     });
   }
+}
+
+export function loginWithGoogle(callback) {
+  return (dispatch) => {
+    let provider = new firebase.auth.GoogleAuthProvider();
+    provider.addScope('profile');
+    provider.addScope('email');
+    firebase.auth().signInWithPopup(provider)
+    .then(response => {
+      dispatch({
+        type: LOGGED_IN,
+        payload: response
+      });
+      //callback directs to app page.
+      callback();
+    })
+    .catch(err => {
+      console.log("caught error", err);
+    });
+  };
 }

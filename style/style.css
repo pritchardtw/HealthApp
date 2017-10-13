@@ -32,30 +32,24 @@
 .app {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  position: absolute;
 }
 
 .navbar {
   margin: 0;
-  height: 7%;
+  min-height: 55px;
+  border: 0;
+  border-bottom: 1px solid lightgray;
+  border-radius: 0;
+}
+
+.navbar-right {
+  margin: 0;
 }
 
 .navbar-brand, .navbar-default, .navbar-nav>li>a {
   color: #373a3c !important;
   background-color: white;
-}
-
-.navbar-brand {
-  padding-left: 30px;
-}
-
-.nav-fluid {
-  height: 100%;
-  overflow: hidden;
-}
-
-.navbar-nav {
-  margin: 0;
 }
 
 .health-app {
@@ -69,53 +63,37 @@
   height: 100vh;
 }
 
-.close-day-nav {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 2.3rem;
-  margin-left: 10px;
-  color: lightgray;
+.fa-angle-double-left, .fa-angle-double-right {
+  font-size: 2em;
+  opacity: .5;
 }
 
-.close-day-nav:hover {
-  cursor: pointer;
-}
-
-.open-day-nav {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 2.3rem;
-  margin-left: 10px;
-  color: lightgray;
-}
-
-.open-day-nav:hover {
-  cursor: pointer;
-}
-
-.day-nav-container {
-  height: 100%;
+@media (max-width: 768px) {
+  .fa-angle-double-left, .fa-angle-double-right {
+    font-size: 1.5em;
+  }
 }
 
 .day-nav {
+  position: absolute;
   height: 100%;
-  width: 91%;
   overflow: hidden;
   overflow-y: scroll;
   list-style: none;
   padding: 0;
-}
-
-.active-nav {
-  opacity: .5;
+  width: 93%;
 }
 
 .day-list {
   float: left;
   height: 100%;
   position: relative;
+  width: 30%;
+  min-width: 150px;
+}
+
+.active-nav {
+  opacity: .5;
 }
 
 .day {
@@ -123,8 +101,6 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 2rem;
   font-weight: bold;
-  margin-left: 10px;
-  margin-right: 10px;
   color: #373a3c;
   border-bottom: 1px solid lightgray;
 }
@@ -132,7 +108,6 @@
 .day li {
   background-color: white;
   padding: 20px;
-  min-width: 250px;
 }
 
 .day li:hover {
@@ -158,24 +133,20 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 
 .meal-span {
   float: right;
-  padding-right: 15px;
 }
 
 .fa {
   float: right;
-  padding-top: 3px;
 }
 
 .fa-check {
   color: forestgreen;
   font-size: 1.7rem;
-  padding-right: 15px;
 }
 
 .fa-circle-thin {
   color: lightgray;
   font-size: 1.2rem;
-  padding-right: 20px;
 }
 
 .meal-list ul {
@@ -192,12 +163,10 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
   font-size: 1.5rem;
   font-weight: normal;
   background-color: white;
-  margin: 7px;
   border-top: 1px solid lightgray;
 }
 
 .meal li {
-  min-width: 250px;
 }
 
 .detailed-meal {
@@ -208,6 +177,8 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 
 .detailed-meal-container {
   overflow: hidden;
+  overflow-y: scroll;
+  height: 100%;
   text-align: left;
 }
 

@@ -9,6 +9,7 @@ import { onHealthAppEnter, onDetailedMealEnter } from '../route_callbacks';
 class HealthApp extends Component {
 
   render() {
+
     if(this.props.days) {
       const { match } = this.props;
 
@@ -16,13 +17,16 @@ class HealthApp extends Component {
         <div className="health-app">
           <DayList days={this.props.days} />
           <Route path={`${match.url}/:id`} render={onDetailedMealEnter}/>
-          <Route exact path={match.url} render={() => (
-            <h3>Welcome to the program.</h3>
-          )}/>
+          <Route exact path={match.url} render={() => {
+            if(this.props.auth.auth) {
+              return (<h3>Welcome to the program {this.props.auth.user.profile.name}</h3>);
+            } else {
+              return (<h3>Welcome to the program.</h3>);
+            }
+          }}/>
         </div>
       );
     } else {
-      console.log("returning loading");
       return(
         <h3>loading...</h3>
       );
@@ -30,8 +34,8 @@ class HealthApp extends Component {
   }
 }
 
-const mapStateToProps = ({ days }) => {
-  return { days };
+const mapStateToProps = ({ days, auth }) => {
+  return { days, auth };
 }
 
 export default connect(mapStateToProps)(HealthApp);

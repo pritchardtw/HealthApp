@@ -43,7 +43,6 @@ class DetailedMeal extends Component {
 }
 
 const mapStateToProps = ({ meals }, { match }) => {
-  console.log("Mapping state to props");
   return { meal : meals[match.params.id] };
 }
 

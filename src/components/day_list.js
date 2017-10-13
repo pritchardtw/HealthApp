@@ -21,29 +21,41 @@ export default class DayList extends Component {
     });
   }
 
+  renderArrow() {
+    if(this.state.open === true) {
+      return <i className="fa fa-angle-double-left" aria-hidden="true" onClick={this.handleClick.bind(this)}></i>
+    } else {
+      return <i className="fa fa-angle-double-right" aria-hidden="true" onClick={this.handleClick.bind(this)}></i>
+    }
+  }
+
   handleClick() {
-    this.setState( (this.state.open === true) ? { open: false } : { open: true });
+
+    if(this.state.open === true) {
+      $('.day-nav').stop().animate({'left': '-93%'}, 500, () => {
+        $('.day-list').stop().animate({'width': '20px', 'min-width': '0px'}, 100);
+      });
+    } else {
+      $('.day-list').stop().animate({'width': '30%', 'min-width': '150px'}, 100, () => {
+        $('.day-nav').stop().animate({'left': '0'}, 500);
+      });
+    }
+    this.setState((this.state.open === true) ? { open: false } : { open: true });
   }
 
   renderList() {
-    if(this.state.open) {
-      return (
-        <div className="day-nav-container">
-          <ul className="day-nav">
-            {this.renderDays()}
-          </ul>
-          <i className="fa fa-window-close-o close-day-nav" aria-hidden="true" onClick={this.handleClick.bind(this)}></i>
-        </div>
-      );
-    } else {
-      return(<i className="fa fa-angle-double-right open-day-nav" aria-hidden="true" onClick={this.handleClick.bind(this)}></i>);
-    }
+    return (
+        <ul className="day-nav">
+          {this.renderDays()}
+        </ul>
+    );
   }
 
   render() {
     return(
       <div className="day-list">
         {this.renderList()}
+        {this.renderArrow()}
       </div>
     );
   }
