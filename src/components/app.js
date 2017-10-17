@@ -32,8 +32,8 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { auth: state.authentication };
+const mapStateToProps = ({ auth }) => {
+  return { auth };
 }
 
 export default connect(mapStateToProps)(App);

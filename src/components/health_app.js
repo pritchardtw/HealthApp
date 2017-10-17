@@ -4,12 +4,13 @@ import _ from 'lodash';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import DetailedMeal from './detailed_meal';
 import DayList from './day_list';
-import { onHealthAppEnter, onDetailedMealEnter } from '../route_callbacks';
+import { onDetailedMealEnter } from '../route_callbacks';
+import { firebaseAuth } from '../firebase/firebase';
 
 class HealthApp extends Component {
 
   render() {
-
+    let user = firebaseAuth.currentUser;
     if(this.props.days) {
       const { match } = this.props;
 
@@ -18,10 +19,10 @@ class HealthApp extends Component {
           <DayList days={this.props.days} />
           <Route path={`${match.url}/:id`} render={onDetailedMealEnter}/>
           <Route exact path={match.url} render={() => {
-            if(this.props.auth.auth) {
-              return (<h3>Welcome to the program {this.props.auth.user.profile.name}</h3>);
+            if(user) {
+              return (<h3 className="welcome-message">Welcome to the program {user.displayName}</h3>);
             } else {
-              return (<h3>Welcome to the program.</h3>);
+              return (<h3 className="welcome-message">Welcome to the program.</h3>);
             }
           }}/>
         </div>

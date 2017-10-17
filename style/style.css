@@ -5,12 +5,13 @@
   text-align: center;
   color: white;
   font-size: 3rem;
-  width: 16rem;
   margin: 0 auto;
 }
 
 .border-box {
     border: 5px solid white;
+    display: inline-block;
+    width: 16rem;
 }
 
 .home {
@@ -68,6 +69,10 @@
   opacity: .5;
 }
 
+.fa-angle-double-left:hover, .fa-angle-double-right:hover {
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .fa-angle-double-left, .fa-angle-double-right {
     font-size: 1.5em;
@@ -89,7 +94,7 @@
   height: 100%;
   position: relative;
   width: 30%;
-  min-width: 150px;
+  min-width: 200px;
 }
 
 .active-nav {
@@ -167,10 +172,16 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 }
 
 .meal li {
+  padding-left: 40px;
 }
 
 .detailed-meal {
   display: inline-block;
+  text-align: left;
+  padding: 20px 10px;
+}
+
+.welcome-message {
   text-align: left;
   padding: 20px 10px;
 }
@@ -248,6 +259,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
   background: transparent;
   transition: width .5s ease, background-color .5s ease;
 }
+
 .sliding-u-l-r:hover:after {
   width: 100%;
   background: #373a3c;
@@ -255,4 +267,37 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 
 .sub-page {
   padding: 30px;
+}
+
+.signup-window {
+  text-align: left;
+  display: inline-block;
+  margin: 10px;
+}
+
+.login-window {
+  text-align: left;
+  display: inline-block;
+  margin: 10px;
+}
+
+.login-signup-window {
+  text-align: center;
+  display: block;
+}
+
+.homepage-app-link {
+  display: block;
+}
+
+.form-control {
+  margin: 10px 0;
+}
+
+.continue-links {
+  display: block;
+  text-align: left;
+  width: 20rem;
+  padding: 10px;
+  margin: 0 auto;
 }

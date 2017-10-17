@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logout } from '../actions';
+import { firebaseAuth } from '../firebase/firebase';
 
 class MenuBar extends Component {
 
+  logout() {
+    this.props.logout(() => {
+      this.props.history.push("/");
+    });
+  }
+
   renderAuthElement() {
-    let auth = false;
-    let profile = null;
 
-    if(this.props.auth.auth) {
-      auth = this.props.auth.auth;
-      profile = this.props.auth.user.profile;
-    }
-
-    if(auth) {
+    let user = firebaseAuth.currentUser;
+    if(user) {
       return (
         <li className="dropdown">
-          <a className="dropdown-toggle sliding-u-l-r" data-toggle="dropdown" href="#">{profile.name}
+          <a className="dropdown-toggle sliding-u-l-r" data-toggle="dropdown" href="#">{user.displayName}
           <span className="caret"></span></a>
           <ul className="dropdown-menu">
-            <li>Logout</li>
+            <li><a onClick={this.logout.bind(this)}>Logout</a></li>
           </ul>
         </li>
       );
@@ -57,4 +59,4 @@ const mapStateToProps = ({ auth }) => {
   return { auth };
 }
 
-export default connect(mapStateToProps)(MenuBar);
+export default connect(mapStateToProps, { logout })(MenuBar);

@@ -14,7 +14,10 @@ class DetailedMeal extends Component {
 
   render() {
     const { meal } = this.props;
-
+    const opts = {
+          height: '216',
+          width: '384'
+          }
     if(meal) {
       return(
         <ReactCSSTransitionGroup
@@ -28,7 +31,7 @@ class DetailedMeal extends Component {
               <h1>{meal.name}</h1>
               {this.renderIngredients()}
               <p>{meal.preparation}</p>
-              <YouTube videoId={meal.video_id} />
+              <YouTube opts={opts} videoId={meal.video_id} />
               <p>{meal.substitutions}</p>
             </div>
           </div>

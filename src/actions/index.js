@@ -1,9 +1,14 @@
 import axios from 'axios';
+import { firebaseAuth, firebaseDb } from '../firebase/firebase';
+import firebase from 'firebase/app';
 export const FETCH_DAYS = 'fetch_days';
 export const FETCH_MEALS = 'fetch_meals';
 export const LOGGED_IN = 'logged_in';
+export const LOGGED_OUT = 'logged_out';
+
 
 const ROOT_URL = 'http://localhost:3090';
+
 // const API_KEY = '?key=thommywhommy'
 
   // function getDays() {
@@ -154,7 +159,7 @@ export function fetchDays() {
       });
     })
     .catch(() => {
-      console.log("caught error");
+      console.error("caught error");
     });
   }
 }
@@ -170,7 +175,20 @@ export function fetchMeals() {
       });
     })
     .catch(() => {
-      console.log("caught error");
+      console.error("caught error");
+    });
+  }
+}
+
+export function initAuth(user) {
+  if(user) {
+    return ({
+      type: LOGGED_IN,
+      payload: user
+    });
+  } else {
+    return({
+      type: LOGGED_OUT
     });
   }
 }
@@ -180,17 +198,50 @@ export function loginWithGoogle(callback) {
     let provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('profile');
     provider.addScope('email');
-    firebase.auth().signInWithPopup(provider)
-    .then(response => {
-      dispatch({
-        type: LOGGED_IN,
-        payload: response
+
+    firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .then(() => {
+      firebaseAuth.signInWithPopup(provider)
+      .then((response) => {
+        firebaseDb.collection('progress').doc(response.user.uid).set({progress : new Array(30).fill(false)})
+        .then(() => {
+          console.log("Document Written")
+          firebaseDb.collection('progress').doc(response.user.uid).get()
+          .then((doc) => {
+            console.log("doc", doc.data());
+          });
+          dispatch({
+            type: LOGGED_IN,
+            payload: response.user
+          });
+          //callback directs to app page.
+          callback();
+        })
+        .catch((err) => {
+          console.error("Error writing document", err);
+        });
+      })
+      .catch((err) => {
+        console.log(err.message);
       });
-      //callback directs to app page.
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+  };
+}
+
+export function logout(callback) {
+  return (dispatch) => {
+    firebaseAuth.signOut()
+    .then(() => {
+      dispatch({
+        type: LOGGED_OUT,
+      });
       callback();
     })
-    .catch(err => {
-      console.log("caught error", err);
+    .catch((err) => {
+      console.error(err.message);
     });
   };
 }
