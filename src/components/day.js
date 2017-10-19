@@ -19,7 +19,7 @@ export default class Day extends Component {
 
   renderMealList() {
     if(this.state.open) {
-      return (<MealList meal_ids={this.props.day.meal_ids} completed={this.props.day.completed}/>);
+      return (<MealList day_index={this.props.index} meal_ids={this.props.day.meal_ids} completed={false}/>);
     } else {
       return null;
     }
@@ -41,9 +41,9 @@ export default class Day extends Component {
 
   render() {
     return(
-        <div key={this.props.day.id} className="day">
-          <li key={this.props.day.id} onClick={this.handleClick.bind(this)}>
-            Day {this.props.day.id}
+        <div className="day">
+          <li onClick={this.handleClick.bind(this)}>
+            Day {this.props.index}
             {this.renderSpan()}
           </li>
           {this.renderMealList()}

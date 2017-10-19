@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 import DetailedMeal from './detailed_meal';
 import DayList from './day_list';
 import { onDetailedMealEnter } from '../route_callbacks';
@@ -17,14 +17,16 @@ class HealthApp extends Component {
       return (
         <div className="health-app">
           <DayList days={this.props.days} />
-          <Route path={`${match.url}/:id`} render={onDetailedMealEnter}/>
-          <Route exact path={match.url} render={() => {
-            if(user) {
-              return (<h3 className="welcome-message">Welcome to the program {user.displayName}</h3>);
-            } else {
-              return (<h3 className="welcome-message">Welcome to the program.</h3>);
-            }
-          }}/>
+          <Switch>
+            <Route path={`${match.url}/:meal_index/:id`} component={DetailedMeal}/>
+            <Route path={match.url} render={() => {
+              if(user) {
+                return (<h3 className="welcome-message">Welcome to the program {user.displayName}</h3>);
+              } else {
+                return (<h3 className="welcome-message">Welcome to the program.</h3>);
+              }
+            }}/>
+          </Switch>
         </div>
       );
     } else {

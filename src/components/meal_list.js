@@ -9,7 +9,10 @@ export default class MealList extends Component {
     const { meal_ids, completed } = this.props;
 
     return _.map(meal_ids, (id, index) => {
-      return <Meal key={id} id={id} completed={completed[index]}/>
+      return <Meal meal_index={(this.props.day_index-1) * 3 + index + 1}
+                   key={id}
+                   id={id}
+                   completed={completed}/>
     });
   }
 

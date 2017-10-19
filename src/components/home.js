@@ -48,7 +48,7 @@ class Home extends Component {
                   <input id="password1" className="form-control" type="password" placeholder="Password"></input>
                 </div>
                 <div>
-                  <input id="password2" className="form-control" type="password" placeholder="Password"></input>
+                  <input id="password2" className="form-control" type="password" placeholder="Confirm Password"></input>
                 </div>
                 <div>
                   <button className="btn btn-primary" onClick={this.handleGoogleLogin.bind(this)}>Sign Up</button>

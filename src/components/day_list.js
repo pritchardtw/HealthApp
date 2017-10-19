@@ -14,9 +14,9 @@ export default class DayList extends Component {
   renderDays() {
     const { days, meals } = this.props;
 
-    return _.map(days, (day) => {
+    return _.map(days, (day, index) => {
       return(
-        <Day key={day.id} day={day} />
+        <Day key={index} index={index} day={day} />
       );
     });
   }

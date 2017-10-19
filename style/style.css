@@ -65,6 +65,7 @@
 }
 
 .fa-angle-double-left, .fa-angle-double-right {
+  float: right;
   font-size: 2em;
   opacity: .5;
 }
@@ -140,16 +141,14 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
   float: right;
 }
 
-.fa {
-  float: right;
-}
-
 .fa-check {
+  float: right;
   color: forestgreen;
   font-size: 1.7rem;
 }
 
 .fa-circle-thin {
+  float: right;
   color: lightgray;
   font-size: 1.2rem;
 }
@@ -191,6 +190,15 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
   overflow-y: scroll;
   height: 100%;
   text-align: left;
+}
+
+.fa-spinner {
+  font-size: 8rem;
+}
+
+.spinner-container {
+  text-align: center;
+  padding-top: 20%;
 }
 
 .fade-in-appear {

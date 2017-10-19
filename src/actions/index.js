@@ -3,6 +3,7 @@ import { firebaseAuth, firebaseDb } from '../firebase/firebase';
 import firebase from 'firebase/app';
 export const FETCH_DAYS = 'fetch_days';
 export const FETCH_MEALS = 'fetch_meals';
+export const MEAL_SELECTED = 'meal_selected';
 export const LOGGED_IN = 'logged_in';
 export const LOGGED_OUT = 'logged_out';
 
@@ -11,172 +12,62 @@ const ROOT_URL = 'http://localhost:3090';
 
 // const API_KEY = '?key=thommywhommy'
 
-  // function getDays() {
-  //   return [
-  //     {
-  //       id: 1,
-  //       meal_ids: [1, 2, 3]
-  //     },
-  //     {
-  //       id: 2,
-  //       meal_ids: [4, 5, 6]
-  //     },
-  //     {
-  //       id: 3,
-  //       meal_ids: [6, 5, 4]
-  //     },
-  //     {
-  //       id: 4,
-  //       meal_ids: [3, 2, 1]
-  //     },
-  //     {
-  //       id: 5,
-  //       meal_ids: [1, 2, 3]
-  //     },
-  //     {
-  //       id: 6,
-  //       meal_ids: [4, 5, 6]
-  //     },
-  //     {
-  //       id: 7,
-  //       meal_ids: [6, 5, 4]
-  //     },
-  //     {
-  //       id: 8,
-  //       meal_ids: [3, 2, 1]
-  //     },
-  //     {
-  //       id: 9,
-  //       meal_ids: [1, 2, 3]
-  //     },
-  //     {
-  //       id: 10,
-  //       meal_ids: [4, 5, 6]
-  //     },
-  //     {
-  //       id: 11,
-  //       meal_ids: [1, 2, 3]
-  //     },
-  //     {
-  //       id: 12,
-  //       meal_ids: [4, 5, 6]
-  //     },
-  //     {
-  //       id: 13,
-  //       meal_ids: [6, 5, 4]
-  //     },
-  //     {
-  //       id: 14,
-  //       meal_ids: [3, 2, 1]
-  //     },
-  //     {
-  //       id: 15,
-  //       meal_ids: [1, 2, 3]
-  //     },
-  //     {
-  //       id: 16,
-  //       meal_ids: [4, 5, 6]
-  //     },
-  //     {
-  //       id: 17,
-  //       meal_ids: [6, 5, 4]
-  //     },
-  //     {
-  //       id: 18,
-  //       meal_ids: [3, 2, 1]
-  //     },
-  //     {
-  //       id: 19,
-  //       meal_ids: [1, 2, 3]
-  //     },
-  //     {
-  //       id: 20,
-  //       meal_ids: [4, 5, 6]
-  //     }
-  //   ];
-  // }
-  //
-  // function getMeals() {
-  //   return [
-  //     {
-  //       id: 1,
-  //       name: "Potatoes",
-  //       ingredients: ["Potatoes", "More potatoes"],
-  //       preparation: "Cook Potatoes",
-  //       video_id: "atj_WlIfzZg",
-  //       substitutions: "alternate potatoes"
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "Apples",
-  //       ingredients: ["Potatoes", "More potatoes"],
-  //       preparation: "Cook Potatoes",
-  //       video_id: "atj_WlIfzZg",
-  //       substitutions: "alternate potatoes"
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "Kale",
-  //       ingredients: ["Potatoes", "More potatoes"],
-  //       preparation: "Cook Potatoes",
-  //       video_id: "atj_WlIfzZg",
-  //       substitutions: "alternate potatoes"
-  //     },
-  //     {
-  //       id: 4,
-  //       name: "Cauliflower",
-  //       ingredients: ["Potatoes", "More potatoes"],
-  //       preparation: "Cook Potatoes",
-  //       video_id: "atj_WlIfzZg",
-  //       substitutions: "alternate potatoes"
-  //     },
-  //     {
-  //       id: 5,
-  //       name: "Dates",
-  //       ingredients: ["Potatoes", "More potatoes"],
-  //       preparation: "Cook Potatoes",
-  //       video_id: "atj_WlIfzZg",
-  //       substitutions: "alternate potatoes"
-  //     },
-  //     {
-  //       id: 6,
-  //       name: "Squash",
-  //       ingredients: ["Potatoes", "More potatoes"],
-  //       preparation: "Cook Potatoes",
-  //       video_id: "atj_WlIfzZg",
-  //       substitutions: "alternate potatoes"
-  //     }
-  //   ];
-  // }
-
 export function fetchDays() {
   return function getDays(dispatch) {
-    axios.get(`${ROOT_URL}/days`)
-    .then(response => {
+    firebaseDb.collection("days").get()
+    .then((querySnapshot) => {
+      let result = {};
+      querySnapshot.forEach((doc) => {
+          result[doc.id] = doc.data();
+      });
       dispatch({
         type: FETCH_DAYS,
-        payload: response
+        payload: result
       });
     })
-    .catch(() => {
-      console.error("caught error");
+    .catch((err) => {
+      console.log(err);
     });
+
+    // axios.get(`${ROOT_URL}/days`)
+    // .then(response => {
+    //   dispatch({
+    //     type: FETCH_DAYS,
+    //     payload: response
+    //   });
+    // })
+    // .catch(() => {
+    //   console.error("caught error");
+    // });
   }
 }
 
 export function fetchMeals() {
-
   return function getMeals(dispatch) {
-    axios.get(`${ROOT_URL}/meals`)
-    .then(response => {
+    firebaseDb.collection('meals').get()
+    .then((querySnapshot) => {
+      let result = {};
+      querySnapshot.forEach((doc) => {
+        result[doc.id] = doc.data();
+      });
       dispatch({
         type: FETCH_MEALS,
-        payload: response
-      });
+        payload: result
+      })
     })
-    .catch(() => {
-      console.error("caught error");
+    .catch((err) => {
+      console.log(err);
     });
+    // axios.get(`${ROOT_URL}/meals`)
+    // .then(response => {
+    //   dispatch({
+    //     type: FETCH_MEALS,
+    //     payload: response
+    //   });
+    // })
+    // .catch(() => {
+    //   console.error("caught error");
+    // });
   }
 }
 
@@ -193,33 +84,83 @@ export function initAuth(user) {
   }
 }
 
+// function populateDays() {
+//   for(let i = 1; i < 31; i++) {
+//     console.log("populating day", i);
+//     if(i % 2) {
+//       firebaseDb.collection('days').doc('' + i).set({ meal_ids : [1,2,3] });
+//     } else {
+//       firebaseDb.collection('days').doc('' + i).set({ meal_ids : [4,5,6] });
+//     }
+//   }
+// }
+
+// function populateMeals() {
+//   console.log("populating");
+//   firebaseDb.collection('meals').doc('' + 1)
+//   .set({ name: "kale",
+//          ingredients: ["kale", "more kale"],
+//          preparation: "cook the kale!",
+//          video_id: "atj_WlIfzZg",
+//          substitutions: "not kale"
+//        });
+//
+//   firebaseDb.collection('meals').doc('' + 2)
+//   .set({ name: "sweet potatoes",
+//         ingredients: ["yams", "more yams"],
+//         preparation: "cook the yams!",
+//         video_id: "atj_WlIfzZg",
+//         substitutions: "not yams"
+//       });
+//
+//   firebaseDb.collection('meals').doc('' + 3)
+//   .set({ name: "brussel sprouts",
+//         ingredients: ["sprouts", "more sprouts"],
+//         preparation: "cook the brussels!",
+//         video_id: "atj_WlIfzZg",
+//         substitutions: "not sprouts!"
+//       });
+//
+//   firebaseDb.collection('meals').doc('' + 4)
+//   .set({ name: "carrots",
+//         ingredients: ["carrots", "more carrots"],
+//         preparation: "cook the carrots!",
+//         video_id: "atj_WlIfzZg",
+//         substitutions: "not carrots"
+//       });
+//
+//   firebaseDb.collection('meals').doc('' + 5)
+//   .set({ name: "broccoli",
+//         ingredients: ["green broccoli", "more green broccoli"],
+//         preparation: "cook the broccoli!",
+//         video_id: "atj_WlIfzZg",
+//         substitutions: "not broccoli"
+//       });
+//
+//   firebaseDb.collection('meals').doc('' + 6)
+//   .set({ name: "cauliflower",
+//         ingredients: ["white cauliflower", "more white cauliflower"],
+//         preparation: "cook the cauliflower!",
+//         video_id: "atj_WlIfzZg",
+//         substitutions: "not cauliflower"
+//       });
+// }
+
 export function loginWithGoogle(callback) {
   return (dispatch) => {
     let provider = new firebase.auth.GoogleAuthProvider();
     provider.addScope('profile');
     provider.addScope('email');
-
     firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => {
       firebaseAuth.signInWithPopup(provider)
       .then((response) => {
-        firebaseDb.collection('progress').doc(response.user.uid).set({progress : new Array(30).fill(false)})
-        .then(() => {
-          console.log("Document Written")
-          firebaseDb.collection('progress').doc(response.user.uid).get()
-          .then((doc) => {
-            console.log("doc", doc.data());
-          });
-          dispatch({
-            type: LOGGED_IN,
-            payload: response.user
-          });
-          //callback directs to app page.
-          callback();
-        })
-        .catch((err) => {
-          console.error("Error writing document", err);
+        dispatch({
+          type: LOGGED_IN,
+          payload: response.user
         });
+        //callback directs to app page.
+        callback();
       })
       .catch((err) => {
         console.log(err.message);
@@ -244,4 +185,19 @@ export function logout(callback) {
       console.error(err.message);
     });
   };
+}
+
+export function mealCompleted(meal_index) {
+  return () => {
+    let uid = firebaseAuth.currentUser.uid;
+    let progressObject = {};
+    progressObject[meal_index] = true;
+    firebaseDb.collection('progress').doc(uid).set(progressObject, { merge: true })
+    .then(() => {
+      console.log("Updated Doc w/ meal index");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
 }

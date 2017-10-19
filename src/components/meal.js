@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, NavLink } from 'react-router-dom';
-import { showDetailedMeal } from '../route_callbacks';
+import { mealSelected } from '../actions';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Meal extends Component {
+
+  updateSelectedMeal() {
+    this.props.mealSelected(this.props.meal_index);
+  }
 
   renderSpan() {
     const { completed } = this.props;
@@ -17,11 +21,12 @@ class Meal extends Component {
   }
 
   render() {
-    const { meal } = this.props;
-
+    const { meal, meal_index, id } = this.props;
     return(
-        <NavLink className="meal" activeClassName="active-nav" to={`/app/${meal.id}`}>
-          <li key={meal.id}>
+        <NavLink className="meal"
+                 activeClassName="active-nav"
+                 to={`/app/${meal_index}/${id}`}>
+          <li key={this.props.id}>
             {meal.name}
             {this.renderSpan()}
           </li>
@@ -34,4 +39,4 @@ const mapStateToProps = ({ meals }, ownProps) => {
   return { meal: meals[ownProps.id] };
 }
 
-export default connect(mapStateToProps)(Meal);
+export default connect(mapStateToProps, { mealSelected })(Meal);
