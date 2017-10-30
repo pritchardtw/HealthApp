@@ -6,11 +6,14 @@ export const FETCH_MEALS = 'fetch_meals';
 export const MEAL_SELECTED = 'meal_selected';
 export const LOGGED_IN = 'logged_in';
 export const LOGGED_OUT = 'logged_out';
-
+export const UPDATE_PROGRESS = 'update_progress';
+export const PURCHASED_PRO = 'purchased_pro';
 
 const ROOT_URL = 'http://localhost:3090';
 
 // const API_KEY = '?key=thommywhommy'
+let unsubscribeProgress; // gets initialized at login.
+let unsubscribePurchases;
 
 export function fetchDays() {
   return function getDays(dispatch) {
@@ -71,13 +74,35 @@ export function fetchMeals() {
   }
 }
 
-export function initAuth(user) {
+export function initAuth(user, dispatch) {
   if(user) {
+    unsubscribeProgress = firebaseDb.collection("progress").doc(user.uid)
+    .onSnapshot((doc) => {
+      if(doc.exists) {
+        dispatch({
+          type: UPDATE_PROGRESS,
+          payload: doc.data()
+        });
+      }
+    });
+    unsubscribePurchases = firebaseDb.collection('customers').doc(user.uid).collection('products').doc('pro')
+    .onSnapshot((doc) => {
+      if(doc.exists) {
+        dispatch({
+          type: PURCHASED_PRO,
+          payload: doc.data()
+        })
+      }
+    })
     return ({
       type: LOGGED_IN,
       payload: user
     });
   } else {
+    dispatch({
+      type: UPDATE_PROGRESS,
+      payload: {}
+    });
     return({
       type: LOGGED_OUT
     });
@@ -146,19 +171,13 @@ export function initAuth(user) {
 //       });
 // }
 
-export function loginWithGoogle(callback) {
+function loginWithProvider(provider, callback) {
   return (dispatch) => {
-    let provider = new firebase.auth.GoogleAuthProvider();
-    provider.addScope('profile');
-    provider.addScope('email');
     firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => {
       firebaseAuth.signInWithPopup(provider)
       .then((response) => {
-        dispatch({
-          type: LOGGED_IN,
-          payload: response.user
-        });
+        dispatch(initAuth(response.user, dispatch));
         //callback directs to app page.
         callback();
       })
@@ -169,16 +188,36 @@ export function loginWithGoogle(callback) {
     .catch((err) => {
       console.error(err.message);
     });
-  };
+  }
+}
+
+export function loginWithGoogle(callback) {
+  let provider = new firebase.auth.GoogleAuthProvider();
+  provider.addScope('profile');
+  provider.addScope('email');
+  return loginWithProvider(provider, callback);
+}
+
+export function loginWithFacebook(callback) {
+  let provider = new firebase.auth.FacebookAuthProvider();
+  return loginWithProvider(provider, callback);
+}
+
+export function loginWithEmailAndPassword(email, password) {
+  firebase.auth().signInWithEmailAndPassword(email, password)
+  .catch((error) => {
+    // Handle Errors here.
+    console.log(error);
+  });
 }
 
 export function logout(callback) {
   return (dispatch) => {
+    unsubscribeProgress();
+    unsubscribePurchases();
     firebaseAuth.signOut()
     .then(() => {
-      dispatch({
-        type: LOGGED_OUT,
-      });
+      dispatch(initAuth(null, dispatch));
       callback();
     })
     .catch((err) => {
@@ -187,17 +226,38 @@ export function logout(callback) {
   };
 }
 
-export function mealCompleted(meal_index) {
+export function mealCompleted(values, meal_index) {
   return () => {
     let uid = firebaseAuth.currentUser.uid;
     let progressObject = {};
-    progressObject[meal_index] = true;
+    progressObject[meal_index] = { completed : true, values };
     firebaseDb.collection('progress').doc(uid).set(progressObject, { merge: true })
     .then(() => {
-      console.log("Updated Doc w/ meal index");
     })
     .catch((err) => {
       console.log(err);
     });
+  }
+}
+
+export function mealIncomplete(meal_index) {
+  return () => {
+    let uid = firebaseAuth.currentUser.uid;
+    let progressObject = {};
+    progressObject[meal_index] = { completed : false };
+    firebaseDb.collection('progress').doc(uid).set(progressObject, { merge: true })
+    .then(() => {
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+}
+
+export function purchasePro(token) {
+  return () => {
+    console.log("purchasePro", token);
+    let uid = firebaseAuth.currentUser.uid;
+    firebaseDb.collection('customers').doc(uid).collection('charges').add({source: token.id, amount: 1000});
   }
 }

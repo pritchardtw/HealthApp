@@ -5,6 +5,8 @@ import HealthApp from './health_app';
 import GroceryList from './grocery_list';
 import About from './about';
 import Snacks from './snacks';
+import Checkout from './stripe/checkout';
+
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { onHealthAppEnter } from '../route_callbacks';
 import { connect } from 'react-redux';
@@ -17,13 +19,14 @@ class App extends Component {
           <ReactCSSTransitionGroup
               transitionName="fade-in"
               transitionEnterTimeout={250}
-              transitionLeaveTimeout={1}
+              transitionLeaveTimeout={250}
               transitionAppear={true}
               transitionAppearTimeout={250}>
             <Switch>
               <Route path={`${this.props.match.url}/grocery_list`} render={()=>{return <GroceryList {...this.props}/>}}/>
               <Route path={`${this.props.match.url}/about`} render={()=>{return <About {...this.props}/>}}/>
               <Route path={`${this.props.match.url}/snacks`} render={()=>{return <Snacks {...this.props}/>}}/>
+              <Route path={`${this.props.match.url}/health`} render={()=>{return <Checkout {...this.props} />}}/>
               <Route path={this.props.match.url} render={onHealthAppEnter}/>
             </Switch>
           </ReactCSSTransitionGroup>

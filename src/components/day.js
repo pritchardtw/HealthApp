@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Route, NavLink } from 'react-router-dom';
 import { showMealList } from '../route_callbacks';
 import MealList from './meal_list';
 import _ from 'lodash';
 
-export default class Day extends Component {
+class Day extends Component {
 
   constructor(props) {
     super(props);
@@ -19,7 +20,7 @@ export default class Day extends Component {
 
   renderMealList() {
     if(this.state.open) {
-      return (<MealList day_index={this.props.index} meal_ids={this.props.day.meal_ids} completed={false}/>);
+      return (<MealList day_index={this.props.index} meal_ids={this.props.day.meal_ids}/>);
     } else {
       return null;
     }
@@ -27,8 +28,8 @@ export default class Day extends Component {
 
   renderSpan() {
     let j = 0;
-    _.map(this.props.day.completed, (completed) => {
-      if(completed) {
+    _.map(this.props.progress, (progress) => {
+      if(progress && progress.completed) {
         j++;
       }
     });
@@ -51,3 +52,13 @@ export default class Day extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ progress }, ownProps) => {
+  const cursor1 = ((ownProps.index - 1) * 3) + 1;
+  const cursor2 = cursor1 + 1;
+  const cursor3 = cursor2 + 1;
+  progress = [progress[cursor1], progress[cursor2], progress[cursor3]];
+  return { progress };
+}
+
+export default connect(mapStateToProps)(Day);

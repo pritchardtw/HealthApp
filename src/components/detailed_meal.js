@@ -3,15 +3,12 @@ import { connect } from 'react-redux';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import _ from 'lodash';
 import YouTube from 'react-youtube';
-import { mealCompleted } from '../actions';
+import { NavLink } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import FacebookProvider, { ShareButton, Like } from 'react-facebook';
+import ProgressForm from './progress_form';
 
 class DetailedMeal extends Component {
-
-  markMealCompleted() {
-    let { meal_index } = this.props;
-    console.log("Meal Index", meal_index);
-    this.props.mealCompleted(meal_index);
-  }
 
   renderIngredients() {
     return _.map(this.props.meal.ingredients, (ingredient, index) => {
@@ -22,9 +19,10 @@ class DetailedMeal extends Component {
   render() {
     const { meal, match } = this.props;
     const opts = {
-          height: '216',
-          width: '384'
+            height: '216',
+            width: '384'
           }
+
     if(meal) {
       return(
         <ReactCSSTransitionGroup
@@ -40,7 +38,12 @@ class DetailedMeal extends Component {
               <p>{meal.preparation}</p>
               <YouTube opts={opts} videoId={meal.video_id} />
               <p>{meal.substitutions}</p>
-              <button className="btn btn-primary" onClick={this.markMealCompleted.bind(this)}>Complete</button>
+            </div>
+            <ProgressForm {...this.props} />
+            <div className="fb-share-like">
+              <FacebookProvider appId="1997133177233738">
+                <Like href="" colorScheme="light" showFaces share />
+              </FacebookProvider>
             </div>
           </div>
         </ReactCSSTransitionGroup>
@@ -57,9 +60,9 @@ class DetailedMeal extends Component {
 
 const mapStateToProps = ({ meals }, { match }) => {
   return {
-           meal : meals[match.params.id],
-           meal_index: match.params.meal_index
+           meal: meals[match.params.id],
+           meal_index: match.params.meal_index,
          };
 }
 
-export default connect(mapStateToProps, { mealCompleted })(DetailedMeal);
+export default connect(mapStateToProps)(DetailedMeal);

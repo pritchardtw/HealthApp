@@ -11,9 +11,9 @@ class Meal extends Component {
   }
 
   renderSpan() {
-    const { completed } = this.props;
+    const { progress } = this.props;
 
-    if(completed) {
+    if(progress && progress.completed) {
       return (<i className="fa fa-check" aria-hidden="true"></i>)
     } else {
       return (<i className="fa fa-circle-thin" aria-hidden="true"></i>)
@@ -35,8 +35,10 @@ class Meal extends Component {
   }
 }
 
-const mapStateToProps = ({ meals }, ownProps) => {
-  return { meal: meals[ownProps.id] };
+const mapStateToProps = ({ meals, progress }, ownProps) => {
+  return { meal: meals[ownProps.id],
+           progress: progress[ownProps.meal_index]
+         };
 }
 
 export default connect(mapStateToProps, { mealSelected })(Meal);

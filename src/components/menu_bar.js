@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { logout } from '../actions';
 import { firebaseAuth } from '../firebase/firebase';
 
@@ -13,13 +13,14 @@ class MenuBar extends Component {
   }
 
   renderAuthElement() {
-
     let user = firebaseAuth.currentUser;
     if(user) {
       return (
         <li className="dropdown">
-          <a className="dropdown-toggle sliding-u-l-r" data-toggle="dropdown" href="#">{user.displayName}
-          <span className="caret"></span></a>
+          <NavLink className="dropdown-toggle sliding-u-l-r" data-toggle="dropdown" to="#">
+            {user.displayName}
+            <span className="caret"></span>
+          </NavLink>
           <ul className="dropdown-menu">
             <li><a onClick={this.logout.bind(this)}>Logout</a></li>
           </ul>
@@ -43,10 +44,11 @@ class MenuBar extends Component {
         </div>
         <div className="collapse navbar-collapse" id="myNavbar">
           <ul className="nav navbar-nav navbar-right">
-            <li><a className="sliding-u-l-r" href={`${this.props.match.url}`}>App</a></li>
-            <li><a className="sliding-u-l-r" href={`${this.props.match.url}/about`}>About</a></li>
-            <li><a className="sliding-u-l-r" href={`${this.props.match.url}/grocery_list`}>Grocery Lists</a></li>
-            <li><a className="sliding-u-l-r" href={`${this.props.match.url}/snacks`}>Snacks</a></li>
+            <li><NavLink className="purchase-link" to={`${this.props.match.url}/health`}><button className="btn btn-purchase">Purchase Full Plan</button></NavLink></li>
+            <li><NavLink className="sliding-u-l-r" to={`${this.props.match.url}`}>App</NavLink></li>
+            <li><NavLink className="sliding-u-l-r" to={`${this.props.match.url}/about`}>About</NavLink></li>
+            <li><NavLink className="sliding-u-l-r" to={`${this.props.match.url}/grocery_list`}>Grocery Lists</NavLink></li>
+            <li><NavLink className="sliding-u-l-r" to={`${this.props.match.url}/snacks`}>Snacks</NavLink></li>
             {this.renderAuthElement()}
           </ul>
         </div>

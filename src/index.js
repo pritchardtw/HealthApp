@@ -9,22 +9,29 @@ import { onHomeEnter } from './route_callbacks';
 import { LOGGED_IN, LOGGED_OUT } from './actions';
 import { firebaseAuth } from './firebase/firebase';
 import { initAuth } from './auth/auth';
+import { StripeProvider } from 'react-stripe-elements';
 
 function render() {
   ReactDOM.render(
     <Provider store={store}>
-      <BrowserRouter>
-        <div>
-          <Switch>
-            <Route path="/app" component={App} />
-            <Route path="/" render={onHomeEnter}/>
-          </Switch>
-        </div>
-      </BrowserRouter>
+      <StripeProvider apiKey="pk_test_DGUtMmvqAKEdKAWHv1boXPXA">
+        <BrowserRouter>
+          <div>
+            <Switch>
+              <Route path="/app" component={App} />
+              <Route path="/" render={onHomeEnter}/>
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </StripeProvider>
     </Provider>
     , document.querySelector('.initial-container'));
 }
 
 initAuth(store.dispatch)
-  .then(() => render())
-  .catch(error => console.error(error));
+  .then(() => {
+    render();
+  })
+  .catch(error => {
+    console.error(error);
+  });
