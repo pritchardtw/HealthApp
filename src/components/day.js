@@ -4,6 +4,7 @@ import { Route, NavLink } from 'react-router-dom';
 import { showMealList } from '../route_callbacks';
 import MealList from './meal_list';
 import _ from 'lodash';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Day extends Component {
 
@@ -19,11 +20,21 @@ class Day extends Component {
   }
 
   renderMealList() {
-    if(this.state.open) {
-      return (<MealList day_index={this.props.index} meal_ids={this.props.day.meal_ids}/>);
-    } else {
-      return null;
-    }
+      return (
+        <ReactCSSTransitionGroup
+            transitionName="expand"
+            transitionEnterTimeout={400}
+            transitionLeaveTimeout={400}
+            transitionAppear={true}
+            transitionAppearTimeout={400}>
+            {
+              this.state.open ?
+              <MealList day_index={this.props.index} meal_ids={this.props.day.meal_ids}/>
+              :
+              ""
+            }
+        </ReactCSSTransitionGroup>
+      );
   }
 
   renderSpan() {

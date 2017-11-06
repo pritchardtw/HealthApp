@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Meal from './meal';
 import { connect } from 'react-redux';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class MealList extends Component {
 
@@ -18,18 +17,11 @@ export default class MealList extends Component {
 
   render() {
     return(
-      <ReactCSSTransitionGroup
-          transitionName="expand"
-          transitionEnterTimeout={400}
-          transitionLeaveTimeout={400}
-          transitionAppear={true}
-          transitionAppearTimeout={400}>
         <div className="meal-list">
           <ul>
             {this.renderMeals()}
           </ul>
         </div>
-      </ReactCSSTransitionGroup>
     );
   }
 }

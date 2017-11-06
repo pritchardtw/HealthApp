@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Route, NavLink } from 'react-router-dom';
 import { mealSelected } from '../actions';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Meal extends Component {
 

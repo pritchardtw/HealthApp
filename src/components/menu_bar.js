@@ -44,7 +44,16 @@ class MenuBar extends Component {
         </div>
         <div className="collapse navbar-collapse" id="myNavbar">
           <ul className="nav navbar-nav navbar-right">
-            <li><NavLink className="purchase-link" to={`${this.props.match.url}/health`}><button className="btn btn-purchase">Purchase Full Plan</button></NavLink></li>
+            {this.props.pro ?
+              <li className='pro-member'>
+                  Pro Member!
+              </li>
+              :
+              <li>
+                <NavLink className="purchase-link" to={`${this.props.match.url}/health`}>
+                  <button className="btn btn-purchase">Purchase Full Plan</button>
+                </NavLink>
+              </li>}
             <li><NavLink className="sliding-u-l-r" to={`${this.props.match.url}`}>App</NavLink></li>
             <li><NavLink className="sliding-u-l-r" to={`${this.props.match.url}/about`}>About</NavLink></li>
             <li><NavLink className="sliding-u-l-r" to={`${this.props.match.url}/grocery_list`}>Grocery Lists</NavLink></li>
@@ -57,8 +66,9 @@ class MenuBar extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { auth };
+const mapStateToProps = ({ auth, purchase_plan }) => {
+  return { auth, pro: purchase_plan.pro };
+
 }
 
 export default connect(mapStateToProps, { logout })(MenuBar);

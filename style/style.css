@@ -12,6 +12,7 @@
     border: 3px solid white;
     display: inline-block;
     width: 16rem;
+    margin-bottom: 5px;
 }
 
 .home {
@@ -171,6 +172,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
   font-weight: normal;
   background-color: white;
   border-top: 1px solid lightgray;
+  max-height: 100px;
 }
 
 .meal li {
@@ -238,7 +240,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 }
 
 .expand-appear.expand-appear-active {
-  max-height: 600px;
+  max-height: 300px;
   transition: max-height 400ms ease-in;
 }
 
@@ -247,23 +249,24 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 }
 
 .expand-enter.expand-enter-active {
-  max-height: 600px;
+  max-height: 300px;
   transition: max-height 400ms ease-in;
 }
 
 .expand-leave {
-  max-height: 600px;
+  max-height: 300px;
 }
 
 .expand-leave.expand-leave-active {
   max-height: 0px;
-  transition: max-height 400ms ease-in;
+  transition: max-height 300ms ease-in;
 }
 
 /* LEFT TO RIGHT */
 .sliding-u-l-r {
   display: inline-block;
 }
+
 .sliding-u-l-r:after {
   content: '';
   display: block;
@@ -320,10 +323,6 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
   color: red;
 }
 
-.btn-social {
-  margin: 5px 0;
-}
-
 .btn-social:hover {
   cursor: pointer;
 }
@@ -332,7 +331,6 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
   background-color: rgba(255,255,255,.75);
   color: black;
   border: 1px solid white;
-  margin: 5px 0;
 }
 
 .homepage-app-link {
@@ -387,6 +385,26 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
 
 .purchase-link {
   padding: 10px !important;
+}
+
+.pro-member {
+  background-color: purple;
+  color: white;
+  padding: 17px;
+}
+
+.btn-continue {
+  background-color: purple;
+  color: white;
+  border: none;
+}
+
+.dropdown {
+  overflow: hidden;
+}
+
+.btn-block {
+  margin: 0 0 5px 0;
 }
 
 /*.landing-container {

@@ -7,7 +7,9 @@ export const MEAL_SELECTED = 'meal_selected';
 export const LOGGED_IN = 'logged_in';
 export const LOGGED_OUT = 'logged_out';
 export const UPDATE_PROGRESS = 'update_progress';
-export const PURCHASED_PRO = 'purchased_pro';
+export const PRO_PURCHASED = 'pro_purchased';
+export const PRO_PURCHASE_PROCESSING = 'pro_purchase_processing';
+export const PRO_PURCHASE_ERROR = 'pro_purchase_error';
 
 const ROOT_URL = 'http://localhost:3090';
 
@@ -74,26 +76,31 @@ export function fetchMeals() {
   }
 }
 
+function initSubscriptions(user, dispatch) {
+  unsubscribePurchases = firebaseDb.collection('customers').doc(user.uid).collection('products').doc('pro')
+  .onSnapshot((doc) => {
+    if(doc.exists) {
+      dispatch({
+        type: PRO_PURCHASED,
+        payload: doc.data().purchased
+      })
+    }
+  });
+
+  unsubscribeProgress = firebaseDb.collection('progress').doc(user.uid)
+  .onSnapshot((doc) => {
+    if(doc.exists) {
+      dispatch({
+        type: UPDATE_PROGRESS,
+        payload: doc.data()
+      });
+    }
+  });
+}
+
 export function initAuth(user, dispatch) {
   if(user) {
-    unsubscribeProgress = firebaseDb.collection("progress").doc(user.uid)
-    .onSnapshot((doc) => {
-      if(doc.exists) {
-        dispatch({
-          type: UPDATE_PROGRESS,
-          payload: doc.data()
-        });
-      }
-    });
-    unsubscribePurchases = firebaseDb.collection('customers').doc(user.uid).collection('products').doc('pro')
-    .onSnapshot((doc) => {
-      if(doc.exists) {
-        dispatch({
-          type: PURCHASED_PRO,
-          payload: doc.data()
-        })
-      }
-    })
+    initSubscriptions(user, dispatch);
     return ({
       type: LOGGED_IN,
       payload: user
@@ -186,7 +193,7 @@ function loginWithProvider(provider, callback) {
       });
     })
     .catch((err) => {
-      console.error(err.message);
+      console.log(err.message);
     });
   }
 }
@@ -221,7 +228,7 @@ export function logout(callback) {
       callback();
     })
     .catch((err) => {
-      console.error(err.message);
+      console.log(err.message);
     });
   };
 }
@@ -254,10 +261,33 @@ export function mealIncomplete(meal_index) {
   }
 }
 
-export function purchasePro(token) {
-  return () => {
+export function purchasePro(token, callback) {
+  return (dispatch) => {
     console.log("purchasePro", token);
     let uid = firebaseAuth.currentUser.uid;
-    firebaseDb.collection('customers').doc(uid).collection('charges').add({source: token.id, amount: 1000});
+    firebaseDb.collection('customers').doc(uid).collection('charges').add({source: token.id, amount: 1000})
+    .then((doc) => {
+        //write the doc then listen for charge completion.
+        let unsubscribeCharge = firebaseDb.collection('customers').doc(uid).collection('charges').doc(doc.id).onSnapshot((doc) => {
+        const docData = doc.data();
+        console.log("docData", docData);
+        if(docData.error) {
+          console.log("error in charge", docData.error)
+          unsubscribeCharge();
+          dispatch({
+            type: PRO_PURCHASE_ERROR,
+            payload: doc.id
+          });
+        } else if(docData.charge) {
+          console.log("charged", docData.charge)
+          unsubscribeCharge();
+        }
+      });
+      dispatch({
+        type: PRO_PURCHASE_PROCESSING,
+        payload: doc.id
+      });
+      callback();
+    });
   }
 }

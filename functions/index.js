@@ -19,21 +19,17 @@ const stripe = require('stripe')(functions.config().stripe.token),
 // Charge the Stripe customer whenever an amount is written to the Firestore database
 exports.createStripeCharge = functions.firestore.document('/customers/{userId}/charges/{id}').onCreate(event => {
   const val = event.data.data();
-  // This onWrite will trigger whenever anything is written to the path, so
-  // noop if the charge was deleted, errored out, or the Stripe API returned a result (id exists)
-  if (val === null || val.id || val.error) return null;
-  // Look up the Stripe customer id written in createStripeCustomer
   // Create a charge using the pushId as the idempotency key, protecting against double charges
+  // Because this is in onCreate there shouldn't be a double charge.
   const amount = val.amount;
-  // const idempotency_key = event.params.id;
+  const idempotency_key = event.params.id;
   const description = "True Health Pro";
   let charge = {amount, currency, description};
   if (val.source !== null) charge.source = val.source;
-  return stripe.charges.create(charge, (err, charge) => {
+  return stripe.charges.create(charge, { idempotency_key }, (err, charge) => {
     if(err) {
       console.log("Stripe Create Charge Error:", err.message);
       const timestamp = new Date().getTime();
-      admin.firestore().collection('customers').doc(event.params.userId).collection('products').doc('pro').set({ purchased: true }, {merge: true});
       return event.data.ref.set({ error: err.message, timestamp});
     } else if(charge) {
       console.log("Charge created", charge);
