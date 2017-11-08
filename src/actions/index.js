@@ -178,15 +178,13 @@ export function initAuth(user, dispatch) {
 //       });
 // }
 
-function loginWithProvider(provider, callback) {
+function loginWithProvider(provider) {
   return (dispatch) => {
     firebaseAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => {
       firebaseAuth.signInWithPopup(provider)
       .then((response) => {
         dispatch(initAuth(response.user, dispatch));
-        //callback directs to app page.
-        callback();
       })
       .catch((err) => {
         console.log(err.message);
@@ -198,24 +196,46 @@ function loginWithProvider(provider, callback) {
   }
 }
 
-export function loginWithGoogle(callback) {
+export function loginWithGoogle() {
   let provider = new firebase.auth.GoogleAuthProvider();
   provider.addScope('profile');
   provider.addScope('email');
-  return loginWithProvider(provider, callback);
+  return loginWithProvider(provider);
 }
 
-export function loginWithFacebook(callback) {
+export function loginWithFacebook() {
   let provider = new firebase.auth.FacebookAuthProvider();
-  return loginWithProvider(provider, callback);
+  return loginWithProvider(provider);
 }
 
 export function loginWithEmailAndPassword(email, password) {
-  firebase.auth().signInWithEmailAndPassword(email, password)
-  .catch((error) => {
-    // Handle Errors here.
-    console.log(error);
-  });
+  console.log("Sign In", email, password);
+  return (dispatch) => {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((response) => {
+      console.log("log in response", response);
+      dispatch(initAuth(response, dispatch));
+    })
+    .catch((error) => {
+        console.log(error.message);
+    });
+  }
+}
+
+export function signUpWithEmailAndPassword(email, password) {
+  console.log("Sign Up", email, password);
+  return (dispatch) => {
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((response) => {
+      console.log("sign up response", response);
+      console.log("response.user", response.user);
+      console.log("response.id", response.uid);
+      dispatch(initAuth(response, dispatch));
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+  }
 }
 
 export function logout(callback) {
