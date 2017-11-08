@@ -124,6 +124,10 @@ export function initAuth(user, dispatch) {
       type: UPDATE_PROGRESS,
       payload: {}
     });
+    dispatch({
+      type: PRO_PURCHASED,
+      payload: false
+    });
     return({
       type: LOGGED_OUT
     });
