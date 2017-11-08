@@ -18,7 +18,7 @@ class MenuBar extends Component {
       return (
         <li className="dropdown">
           <NavLink className="dropdown-toggle sliding-u-l-r" data-toggle="dropdown" to="#">
-            {user.displayName}
+            {user.displayName ? user.displayName : user.email}
             <span className="caret"></span>
           </NavLink>
           <ul className="dropdown-menu">
