@@ -77,34 +77,48 @@ export function fetchMeals() {
 }
 
 function initSubscriptions(user, dispatch) {
-  unsubscribePurchases = firebaseDb.collection('customers').doc(user.uid).collection('products').doc('pro')
-  .onSnapshot((doc) => {
-    if(doc.exists) {
-      dispatch({
-        type: PRO_PURCHASED,
-        payload: doc.data().purchased
-      })
-    }
-  });
-
-  unsubscribeProgress = firebaseDb.collection('progress').doc(user.uid)
-  .onSnapshot((doc) => {
-    if(doc.exists) {
-      dispatch({
-        type: UPDATE_PROGRESS,
-        payload: doc.data()
-      });
-    }
+  return new Promise((resolve, reject) => {
+    console.log("in init subscriptions");
+    unsubscribePurchases = firebaseDb.collection('customers').doc(user.uid).collection('products').doc('pro')
+    .onSnapshot((doc) => {
+      if(doc.exists) {
+        console.log("dispatching pro purchased", doc.data().purchased);
+        dispatch({
+          type: PRO_PURCHASED,
+          payload: doc.data().purchased
+        })
+      } else {
+        console.log("dispatching pro purchased false");
+        dispatch({
+          type: PRO_PURCHASED,
+          payload: false
+        })
+      }
+    });
+    unsubscribeProgress = firebaseDb.collection('progress').doc(user.uid)
+    .onSnapshot((doc) => {
+      if(doc.exists) {
+        dispatch({
+          type: UPDATE_PROGRESS,
+          payload: doc.data()
+        });
+      }
+    });
+    resolve();
   });
 }
 
 export function initAuth(user, dispatch) {
   if(user) {
-    initSubscriptions(user, dispatch);
-    return ({
-      type: LOGGED_IN,
-      payload: user
-    });
+    return (dispatch) => {
+      initSubscriptions(user, dispatch)
+      .then(() => {
+        dispatch({
+          type: LOGGED_IN,
+          payload: user
+        });
+      });
+    }
   } else {
     dispatch({
       type: UPDATE_PROGRESS,
@@ -209,11 +223,9 @@ export function loginWithFacebook() {
 }
 
 export function loginWithEmailAndPassword(email, password) {
-  console.log("Sign In", email, password);
   return (dispatch) => {
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((response) => {
-      console.log("log in response", response);
       dispatch(initAuth(response, dispatch));
     })
     .catch((error) => {
@@ -227,9 +239,6 @@ export function signUpWithEmailAndPassword(email, password) {
   return (dispatch) => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((response) => {
-      console.log("sign up response", response);
-      console.log("response.user", response.user);
-      console.log("response.id", response.uid);
       dispatch(initAuth(response, dispatch));
     })
     .catch((error) => {
