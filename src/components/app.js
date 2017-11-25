@@ -6,9 +6,7 @@ import GroceryList from './grocery_list';
 import About from './about';
 import Snacks from './snacks';
 import Checkout from './stripe/checkout';
-
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import { onHealthAppEnter } from '../route_callbacks';
 import { connect } from 'react-redux';
 
 class App extends Component {
@@ -23,11 +21,11 @@ class App extends Component {
               transitionAppear={true}
               transitionAppearTimeout={250}>
             <Switch>
-              <Route path={`${this.props.match.url}/grocery_list`} render={()=>{return <GroceryList {...this.props}/>}}/>
-              <Route path={`${this.props.match.url}/about`} render={()=>{return <About {...this.props}/>}}/>
-              <Route path={`${this.props.match.url}/snacks`} render={()=>{return <Snacks {...this.props}/>}}/>
-              <Route path={`${this.props.match.url}/health`} render={()=>{return <Checkout {...this.props} />}}/>
-              <Route path={this.props.match.url} render={onHealthAppEnter}/>
+              <Route path={`${this.props.match.url}/grocery_list`} component={GroceryList}/>
+              <Route path={`${this.props.match.url}/about`} component={About}/>
+              <Route path={`${this.props.match.url}/snacks`} component={Snacks}/>
+              <Route path={`${this.props.match.url}/health`} component={Checkout}/>
+              <Route path={this.props.match.url} component={HealthApp}/>
             </Switch>
           </ReactCSSTransitionGroup>
         </div>

@@ -2,11 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Home from './components/home';
-import App from './components/app';
 import { store } from './store';
-import { onHomeEnter } from './route_callbacks';
-import { LOGGED_IN, LOGGED_OUT } from './actions';
+import { onAppEnter, onHomeEnter } from './route_callbacks';
 import { firebaseAuth } from './firebase/firebase';
 import { initAuth } from './auth/auth';
 import { StripeProvider } from 'react-stripe-elements';
@@ -18,8 +15,8 @@ function render() {
         <BrowserRouter>
           <div>
             <Switch>
-              <Route path="/app" component={App} />
-              <Route path="/" render={onHomeEnter}/>
+              <Route path="/app" render={onAppEnter} />
+              <Route path="/" render={onHomeEnter} />
             </Switch>
           </div>
         </BrowserRouter>
