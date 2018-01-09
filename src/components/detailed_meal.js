@@ -34,9 +34,12 @@ class DetailedMeal extends Component {
           <div key={match.params.id} className="detailed-meal-container">
             <div className="detailed-meal">
               <h1>{meal.name}</h1>
+              <h3>Ingredients</h3>
               {this.renderIngredients()}
+              <h3>Preparation</h3>
               <p>{meal.preparation}</p>
               <YouTube opts={opts} videoId={meal.video_id} />
+              <h3>Substitutions</h3>
               <p>{meal.substitutions}</p>
             </div>
             <ProgressForm {...this.props} />

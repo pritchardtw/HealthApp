@@ -36,7 +36,7 @@ export default class DayList extends Component {
         $('.day-list').stop().animate({'width': '20px', 'min-width': '0px'}, 100);
       });
     } else {
-      $('.day-list').stop().animate({'width': '30%', 'min-width': '200px'}, 100, () => {
+      $('.day-list').stop().animate({'width': '30%', 'min-width': '250px'}, 100, () => {
         $('.day-nav').stop().animate({'left': '0'}, 500);
       });
     }

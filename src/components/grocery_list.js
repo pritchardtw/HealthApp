@@ -6,7 +6,15 @@ class GroceryList extends Component {
     let flatIngredients = ingredients.reduce((acc, ingredients) => {
       return acc.concat(ingredients);
     }, []);
-    return flatIngredients.map((ingredient, index) => <li key={index}>{ingredient}</li>);
+    const ingredientsDict = {};
+    flatIngredients.forEach(ingredient => {
+      if (!ingredientsDict[ingredient]) {
+        ingredientsDict[ingredient] = 1;
+      } else {
+        ingredientsDict[ingredient] += 1;
+      }
+    });
+    return Object.entries(ingredientsDict).map((ingredient, index) => <li key={index}>{`${ingredient[0]} x${ingredient[1]}`}</li>);
   }
 
   render() {
