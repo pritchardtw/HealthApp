@@ -183,6 +183,7 @@ a.meal, a.meal:hover, a.meal:focus, a.meal:visited, a.meal:link {
   display: inline-block;
   text-align: left;
   padding: 20px 10px;
+  width: 100%;
 }
 
 .welcome-message {

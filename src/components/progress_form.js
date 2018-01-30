@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { mealCompleted, mealIncomplete } from '../actions';
+import { mealCompleted, mealIncomplete } from '../actions/action_meals';
 
 class ProgressForm extends Component {
 

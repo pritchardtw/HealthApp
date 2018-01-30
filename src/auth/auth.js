@@ -1,4 +1,4 @@
-import * as actions from '../actions';
+import { initAuth as initAuthAction } from '../actions/action_auth';
 import { firebaseAuth } from '../firebase/firebase';
 
 export function initAuth(dispatch) {
@@ -6,7 +6,7 @@ export function initAuth(dispatch) {
   return new Promise((resolve, reject) => {
     const unsubscribe = firebaseAuth.onAuthStateChanged(
       authUser => {
-        dispatch(actions.initAuth(authUser, dispatch));
+        dispatch(initAuthAction(authUser, dispatch));
         unsubscribe();
         resolve();
       },
